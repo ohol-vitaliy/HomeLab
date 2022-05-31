@@ -1,6 +1,25 @@
 version: '3.9'
 
 services:
+  traefik:
+    container_name: traefik
+    image: traefik:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /opt/appdata/traefik/:/etc/traefik/
+    networks:
+      - treafik_proxy
+    labels:
+      traefik.http.routers.api.rule: Host(`traefik.YOURDOMAIN.COM`)    # Define the subdomain for the traefik dashboard.
+      traefik.http.routers.api.entryPoints: https    # Set the Traefik entry point.
+      traefik.http.routers.api.service: api@internal    # Enable Traefik API.
+      traefik.enable: true   # Enable Traefik reverse proxy for the Traefik dashboard.
+    environment:
+      CF_DNS_API_TOKEN: YOUR_SUPER_SECURE_CLOUDFLARE_API_TOKEN
+    restart: unless-stopped
   watchtower: # done
     container_name: watchtower
     image: containrrr/watchtower:latest
@@ -111,4 +130,7 @@ services:
 #   prometheus: {}
 
 networks:
-  treafik_proxy: {}
+  treafik_proxy:
+    driver: bridge
+    external: true
+

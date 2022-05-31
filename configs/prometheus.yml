@@ -1,5 +1,16 @@
+global:
+  scrape_interval: 1m
+  scrape_timeout: 20s
+
 scrape_configs:
   - job_name: 'monitoring'
-    scrape_interval: 5m
+    honor_timestamps: true
+    metrics_path: /metrics
+    scheme: http
+    follow_redirects: true
+    enable_http2: true
     static_configs:
-      - targets: ['192.168.0.106:9090', '192.168.0.106:8083', '192.168.0.106:9100']
+      - targets: 
+        - '192.168.0.106:9090' # prometheus
+        - '192.168.0.106:8083' # cadvisor
+        - '192.168.0.106:9100' # nade exporter
