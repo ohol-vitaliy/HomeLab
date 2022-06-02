@@ -10,8 +10,8 @@ services:
       - treafik_proxy
     volumes:
       - /home/zeroring:/srv
-      - ./configs/filebrowser.json:/config/settings.json:rw
-      - ./configs/filebrowser.db:/database/filebrowser.db:rw
+      - ./configs/filebrowser/filebrowser.json:/.filebrowser.json:rw
+      - ./configs/filebrowser/filebrowser.db:/database.db:rw
     environment:
       - PUID=1000
       - PGID=1000
