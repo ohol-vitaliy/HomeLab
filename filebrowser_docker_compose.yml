@@ -4,15 +4,17 @@ services:
   filebrowser: # done
     container_name: filebrowser
     image: filebrowser/filebrowser:latest
-    # ports:
-    #   - 3002:80
+    ports:
+      - 3002:80
+    networks:
+      - treafik_proxy
     volumes:
       - /home/zeroring:/srv
-      - ./configs/filebrowser.json:/config/settings.json
-      # - /portainer/Files/AppData/Config/filebrowser/filebrowser.db:/database/filebrowser.db
+      - ./configs/filebrowser.json:/config/settings.json:rw
+      - ./configs/filebrowser.db:/database/filebrowser.db:rw
     environment:
-      - PUID=$(id -u)
-      - PGID=$(id -g)
+      - PUID=1000
+      - PGID=1000
     restart: unless-stopped
 
 networks:

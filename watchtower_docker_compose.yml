@@ -12,6 +12,7 @@ services:
       - treafik_proxy
     command: --http-api-metrics --debug prometheus grafana
     restart: unless-stopped
+    
 networks:
   treafik_proxy:
     driver: bridge
