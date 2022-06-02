@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  nodeexporter: # done
+    container_name: node_exporter
+    image: prom/node-exporter:latest
+    # ports:
+    #   - 9100:9100
+    networks:
+      - treafik_proxy
+    command: --path.rootfs=/host
+    volumes:
+      - /:/host:ro
+    restart: unless-stopped
+  cadvisor: # done
+    container_name: cadvisor
+    image: zcube/cadvisor:latest
+    # ports:
+    #   - 8083:8080
+    volumes:
+      - /dev/disk:/dev/disk:ro
+      - /:/rootfs:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /var/run:/var/run:ro
+    networks:
+      - treafik_proxy
+    environment:
+      - CADVISOR_HEALTHCHECK_URL=http://localhost:8080/healthz
+    restart: unless-stopped
+
+networks:
+  treafik_proxy:
+    driver: bridge
+    external: true

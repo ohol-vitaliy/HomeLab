@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  grafana: # done
+    container_name: grafana
+    image: grafana/grafana:latest
+    # ports:
+    #   - 3000:3000
+    networks:
+      - treafik_proxy
+    restart: unless-stopped
+
+networks:
+  treafik_proxy:
+    driver: bridge
+    external: true

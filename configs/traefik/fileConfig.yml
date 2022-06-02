@@ -1,5 +1,4 @@
 http:
-
   ## EXTERNAL ROUTING EXAMPLE - Only use if you want to proxy something manually ##
   routers:
     # Homeassistant routing example - Remove if not used
