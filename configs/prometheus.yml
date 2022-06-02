@@ -11,6 +11,6 @@ scrape_configs:
     enable_http2: true
     static_configs:
       - targets: 
-        - '192.168.0.106:9090' # prometheus
-        - '192.168.0.106:8083' # cadvisor
-        - '192.168.0.106:9100' # nade exporter
+        - 'localhost:9090' # prometheus
+        - 'cadvisor:8080' # cadvisor
+        - 'node_exporter:9100' # node exporter

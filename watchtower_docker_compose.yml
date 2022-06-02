@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  watchtower: # done
+  watchtower:
     container_name: watchtower
     image: containrrr/watchtower:latest
     volumes:
@@ -10,7 +10,7 @@ services:
     #   - 3011:8080
     networks:
       - treafik_proxy
-    command: --http-api-metrics --debug prometheus grafana
+    # command: --http-api-metrics --debug prometheus grafana
     restart: unless-stopped
     
 networks:

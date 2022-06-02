@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  nodeexporter: # done
+  nodeexporter:
     container_name: node_exporter
     image: prom/node-exporter:latest
     # ports:
@@ -12,7 +12,7 @@ services:
     volumes:
       - /:/host:ro
     restart: unless-stopped
-  cadvisor: # done
+  cadvisor:
     container_name: cadvisor
     image: zcube/cadvisor:latest
     # ports:
@@ -25,8 +25,8 @@ services:
       - /var/run:/var/run:ro
     networks:
       - treafik_proxy
-    environment:
-      - CADVISOR_HEALTHCHECK_URL=http://localhost:8080/healthz
+    # environment:
+    #   - CADVISOR_HEALTHCHECK_URL=http://localhost:8080/healthz
     restart: unless-stopped
 
 networks:
