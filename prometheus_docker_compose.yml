@@ -6,11 +6,16 @@ services:
     image: prom/prometheus:latest
     volumes:
       - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
     ports:
       - 3010:9090
     networks:
       - treafik_proxy
     restart: unless-stopped
+
+volumes:
+  prometheus-data:
+    driver: local
 
 networks:
   treafik_proxy:

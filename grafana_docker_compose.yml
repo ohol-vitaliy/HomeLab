@@ -4,11 +4,17 @@ services:
   grafana: # done
     container_name: grafana
     image: grafana/grafana:latest
+    volumes:
+      - grafana-data:/var/lib/grafana
     # ports:
     #   - 3000:3000
     networks:
       - treafik_proxy
     restart: unless-stopped
+
+volumes:
+  grafana-data:
+    driver: local
 
 networks:
   treafik_proxy:
