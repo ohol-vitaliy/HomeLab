@@ -20,14 +20,20 @@ print2log () {
     echo $(date +"%D %R ")$@ >>$log_file
 }
 
-# Ping router.
 ping -c 1 $router_ip & wait $!
-
 if [ $? != 0 ]; then
-	print2log "Ping $router_ip failed."
+	print2log "Router FAIL"
 else 
-	print2log "Ping OK."
+	print2log "Router OK."
+fi
+
+wget -q --spider http://google.com
+if [ $? != 0 ]; then
+	print2log "Internet FAIL"
+else 
+	print2log "Internet OK."
 fi
 
 # Check sshd.
 print2log "sshd PIDs: "$(ps -o pid= -C sshd)
+print2log "running containers: "$(docker ps -q | wc -l)
