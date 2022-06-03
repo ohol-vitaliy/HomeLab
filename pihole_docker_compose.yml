@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  pihole: # done
+  pihole:
     container_name: pihole
     image: cbcrowe/pihole-unbound:latest
     ports:
@@ -11,9 +11,10 @@ services:
       - 3001:80
     networks:
       - treafik_proxy
-    # volumes:
-    #   - /portainer/Files/AppData/Config/PiHole-Unbound/DNS:/etc/dnsmasq.d
-    #   - /portainer/Files/AppData/Config/PiHole-Unbound:/etc/pihole
+    volumes:
+      - ./configs/resolv.conf:/etc/resolv.conf:ro
+      - etcd:/etc/pihole
+      - dnsmasq:/etc/dnsmasq.d
     environment:
       - ServerIP=192.168.0.106
       - TZ=Europe\Kiev
@@ -21,15 +22,15 @@ services:
       - DNS1=127.0.0.1#5335
       - DNS2=127.0.0.1#5335
       - PIHOLE_DNS_=127.0.0.1#5335
-      - WEBPASSWORD=admin
+      - WEBPASSWORD=franki
       - WEBTHEME=default-dark
-      - S6_OVERLAY_VERSION=v2.1.0.2
-      - IPv6=True
-      - S6_LOGGING=0
-      - S6_KEEP_ENV=1
-      - S6_BEHAVIOUR_IF_STAGE2_FAILS=2
-      - FTL_CMD=no-daemon
-      - DNSMASQ_USER=pihole
+      # - S6_OVERLAY_VERSION=v2.1.0.2
+      # - IPv6=True
+      # - S6_LOGGING=0
+      # - S6_KEEP_ENV=1
+      # - S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+      # - FTL_CMD=no-daemon
+      # - DNSMASQ_USER=pihole
       # - PATH=/opt/pihole:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       # - phpver=php
       # - PIHOLE_DOCKER_TAG=2022.05
@@ -37,6 +38,12 @@ services:
       # - PHP_ENV_CONFIG=/etc/lighttpd/conf-enabled/15-fastcgi-php.conf
       # - PHP_ERROR_LOG=/var/log/lighttpd/error.log
     restart: unless-stopped
+
+volumes:
+  etcd:
+    driver: local
+  dnsmasq:
+    driver: local
 
 networks:
   treafik_proxy:

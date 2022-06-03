@@ -36,4 +36,4 @@ fi
 
 # Check sshd.
 print2log "sshd PIDs: "$(ps -o pid= -C sshd)
-print2log "running containers: "$(docker ps -q | wc -l)
+print2log "running containers: "$(docker ps -q | wc -l)" ( "$(docker ps --format "{{.Names}}" | tr '\n' ' ')")"
