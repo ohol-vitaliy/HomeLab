@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:latest
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./configs/traefik/:/etc/traefik/
+    networks:
+      - treafik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.api.entryPoints=https"
+      - "traefik.http.routers.api.service=api@internal"
+    restart: unless-stopped
+
+networks:
+  treafik_proxy:
+    driver: bridge
+    external: true

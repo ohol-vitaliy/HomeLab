@@ -23,7 +23,7 @@ http:
       ipWhiteList:
         sourceRange: 
           - 127.0.0.1/32 # localhost
-          - 192.168.1.1/24 # LAN Subnet
+          - 192.168.0.0/24 # LAN Subnet
   
     # Authelia guard
     # auth:

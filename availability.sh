@@ -34,6 +34,9 @@ else
 	print2log "Internet OK."
 fi
 
-# Check sshd.
+ram=$(grep Mem /proc/meminfo | awk '{ printf "%.2f ", $2/1048576 }' \
+    | awk '{printf "%.2f GB/%.2f GB", ($1-$3), $3 }')
+
+print2log "RAM: "$ram
 print2log "sshd PIDs: "$(ps -o pid= -C sshd)
 print2log "running containers: "$(docker ps -q | wc -l)" ( "$(docker ps --format "{{.Names}}" | tr '\n' ' ')")"

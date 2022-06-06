@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+  pihole:
+    container_name: pihole
+    image: cbcrowe/pihole-unbound:latest
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      # - 4443:443
+      # - 3001:80
+    networks:
+      - treafik_proxy
+    volumes:
+      - ./configs/resolv.conf:/etc/resolv.conf:ro
+      - etcd:/etc/pihole
+      - dnsmasq:/etc/dnsmasq.d
+    environment:
+      - FTLCONF_REPLY_ADDR4=192.168.0.106
+      - TZ=Europe\Kiev
+      - PIHOLE_DNS_=127.0.0.1#5335;127.0.0.1#5335
+      - WEBPASSWORD=franki
+      - WEBTHEME=default-dark
+      - CUSTOM_CACHE_SIZE=10000
+      - WEBUIBOXEDLAYOUT=traditional
+      - TEMPERATUREUNIT=c
+      - QUERY_LOGGING=true
+      - DNSSEC=false
+      # - REV_SERVER=true
+      # - DNSMASQ_USER=pihole
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pihole.rule=PathPrefix(`/hole`, `/hole/`)"
+      - "traefik.http.routers.pihole.entryPoints=https"
+      - "traefik.http.routers.pihole.service=pihole@docker"
+      - "traefik.http.services.pihole.loadbalancer.server.url=pihole/admin"
+      - "traefik.http.services.pihole.loadbalancer.server.port=80"
+      - "traefik.http.routers.piholeadm.rule=PathPrefix(`/admin`, `/admin/`)"
+      - "traefik.http.routers.piholeadm.entryPoints=https"
+      - "traefik.http.routers.piholeadm.service=piholeadm@docker"
+      - "traefik.http.services.piholeadm.loadbalancer.server.url=pihole/admin"
+      - "traefik.http.services.piholeadm.loadbalancer.server.port=80"
+    restart: unless-stopped
+
+volumes:
+  etcd:
+    driver: local
+  dnsmasq:
+    driver: local
+
+networks:
+  treafik_proxy:
+    driver: bridge
+    external: true
