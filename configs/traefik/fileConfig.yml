@@ -18,13 +18,21 @@ http:
 
   ## MIDDLEWARES ##
   middlewares:
+    # header-diff:
+    #   headers:
+    #     customRequestHeaders:
+    #       X-Req-Type: "req"
+    #     customResponseHeaders:
+    #       X-Req-Type: "res"
+    compr:
+      compress: {}
     # Only Allow Local networks
     local-ipwhitelist:
       ipWhiteList:
         sourceRange: 
           - 127.0.0.1/32 # localhost
           - 192.168.0.0/24 # LAN Subnet
-  
+
     # Authelia guard
     # auth:
     #   forwardauth:

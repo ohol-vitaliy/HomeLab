@@ -7,7 +7,7 @@ global:
 
 # Log level INFO|DEBUG|ERROR
 log:
-  level: INFO
+  level: ERROR
 
 api:
   dashboard: true
@@ -25,16 +25,18 @@ entryPoints:
     address: :443
     http:
       tls:
-        certResolver: staging
+        certResolver: production
         # domains:
         #   - main: zeroring.duckdns.org
         #     sans:
         #       - '*.zeroring.duckdns.org'
       middlewares:
         - securityHeaders@file
+        # - header-diff@file
+        - compr@file
 
 providers:
-  providersThrottleDuration: 2s
+  providersThrottleDuration: 5s
   file:
     filename: /etc/traefik/fileConfig.yml
     # watch: true

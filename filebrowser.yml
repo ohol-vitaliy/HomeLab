@@ -1,11 +1,11 @@
 version: '3.9'
 
 services:
-  filebrowser: # done
+  filebrowser:
     container_name: filebrowser
     image: filebrowser/filebrowser:latest
-    ports:
-      - 3002:80
+    # ports:
+    #   - 3002:80
     networks:
       - treafik_proxy
     volumes:
@@ -15,6 +15,16 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.filebrowser-req.rule=PathPrefix(`/files`, `/static`, `/api`)"
+      - "traefik.http.routers.filebrowser-req.entryPoints=https"
+      - "traefik.http.routers.filebrowser-req.middlewares=files-strip"
+
+      - "traefik.http.middlewares.files-strip.stripprefix.prefixes=/files"
+
+      - "traefik.http.services.filebrowser.loadbalancer.passHostHeader=true"
+      - "traefik.http.services.filebrowser.loadbalancer.server.port=80"
     restart: unless-stopped
 
 networks:
