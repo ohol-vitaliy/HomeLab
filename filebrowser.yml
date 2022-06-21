@@ -17,12 +17,9 @@ services:
       - PGID=1000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.filebrowser-req.rule=PathPrefix(`/files`, `/static`, `/api`)"
-      - "traefik.http.routers.filebrowser-req.entryPoints=https"
-      - "traefik.http.routers.filebrowser-req.middlewares=files-strip"
-
-      - "traefik.http.middlewares.files-strip.stripprefix.prefixes=/files"
-
+      - "traefik.http.routers.filebrowser-req.rule=Host(`files.oholvitalii.com`) || Host(`files.berry`)"
+      - "traefik.http.routers.filebrowser-req.entryPoints=http"
+      - "traefik.http.routers.filebrowser-req.middlewares=b-auth@file"
       - "traefik.http.services.filebrowser.loadbalancer.passHostHeader=true"
       - "traefik.http.services.filebrowser.loadbalancer.server.port=80"
     restart: unless-stopped

@@ -30,23 +30,11 @@ services:
       # - DNSMASQ_USER=pihole
     labels:
       - "traefik.enable=true"
-
-      - "traefik.http.routers.pihole.rule=PathPrefix(`/hole/admin`)"
-      - "traefik.http.routers.pihole.entryPoints=https"
-      - "traefik.http.routers.pihole.middlewares=pihole-strip"
-
-      - "traefik.http.routers.pihole-redr.rule=Path(`/hole`, `/admin`, `/hole/`, `/admin/`)"
-      - "traefik.http.routers.pihole-redr.entryPoints=https"
-      - "traefik.http.routers.pihole-redr.middlewares=pihole-redirect"
-
+      - "traefik.http.routers.pihole.rule=Host(`hole.oholvitalii.com`) || Host(`hole.berry`)"
+      - "traefik.http.routers.pihole.entryPoints=http"
+      - "traefik.http.routers.pihole.middlewares=b-auth@file"
       - "traefik.http.services.pihole.loadbalancer.passHostHeader=true"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"
-
-      - "traefik.http.middlewares.pihole-strip.stripprefix.prefixes=/hole"
-      - "traefik.http.middlewares.pihole-redirect.redirectregex.regex=^https?://(.+?)/(?:hole|admin)(?:/(.*))?"
-      - "traefik.http.middlewares.pihole-redirect.redirectregex.replacement=https://$${1}/hole/admin/$${2}"
-      - "traefik.http.middlewares.pihole-redirect.redirectregex.permanent=true"
-      # - "traefik.http.middlewares.pi-chain.chain.middlewares=pihole-strip,pihole-add,tmp-strip"
     restart: unless-stopped
 
 volumes:

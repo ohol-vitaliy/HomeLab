@@ -7,16 +7,21 @@ services:
     ports:
       - 80:80
       - 443:443
-      - 8080:8080
+      # - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./configs/traefik/:/etc/traefik/
     networks:
       - treafik_proxy
+   #environment:
+   #  - CF_API_KEY=33bac251a88364d70d8ff88402a77107dad8b
+   #  - CF_API_EMAIL=ohol.vitaliy@gmail.com
+   #  - MY_DOMAIN=oholvitalii.com
+   #  - DEFAULT_NETWORK=treafik_proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=PathPrefix(`/`)"
-      - "traefik.http.routers.api.entryPoints=https"
+      - "traefik.http.routers.api.rule=Host(`traefik.berry`)"
+      - "traefik.http.routers.api.entryPoints=http"
       - "traefik.http.routers.api.service=api@internal"
     restart: unless-stopped
 

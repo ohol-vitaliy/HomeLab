@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  nextcloud:
+    container_name: nextcloud
+    image: nextcloud
+    ports:
+      - 3000:80
+    volumes:
+      - nextcloud:/var/www/html
+    environment:
+      - MYSQL_HOST=mariadb
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=zeroring
+      - MYSQL_PASSWORD=8Aps6WmY
+    networks:
+      - treafik_proxy
+    restart: unless-stopped
+
+volumes:
+  nextcloud: { }
+
+networks:
+  treafik_proxy:
+    driver: bridge
+    external: true
