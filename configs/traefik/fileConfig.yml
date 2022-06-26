@@ -1,4 +1,18 @@
 http:
+  routers:     
+    shellinabox:       
+      rule: "Host(`script.oholvitalii.com`) || Host(`script.berry`)"       
+      middlewares:
+        - b-auth@file
+      entryPoints:
+        - http
+      service: shellinabox
+  services:     
+    shellinabox:       
+      loadBalancer:         
+        passHostHeader: true
+        servers:         
+          - url: "https://192.168.0.106:666"
   middlewares:
     b-auth:
       basicAuth:

@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  vaultwarden:
+    container_name: vaultwarden
+    image: vaultwarden/server:latest
+    volumes:
+      - ./bw-data/:/data/
+    # ports:
+    #   - 3002:80
+    environment:
+      - SIGNUPS_ALLOWED=false
+    networks:
+      - treafik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vault.rule=Host(`bit.oholvitalii.com`) || Host(`bit.berry`)"
+      - "traefik.http.routers.vault.entryPoints=http,https"
+      # - "traefik.http.routers.vault.middlewares=b-auth@file"
+      - "traefik.http.services.vault.loadbalancer.passHostHeader=true"
+      - "traefik.http.services.vault.loadbalancer.server.port=80"
+    restart: unless-stopped
+
+networks:
+  treafik_proxy:
+    driver: bridge
+    external: true

@@ -24,19 +24,18 @@ entryPoints:
     http:
       middlewares:
         - compr@file
-#   https:
-#     address: :443
-#     http:
-#       tls:
-#         certResolver: production
-#         domains:
-#           - main: oholvitalii.com
-#             sans:
-#               - '*.oholvitalii.com'
-#       middlewares:
-#         - securityHeaders@file
-#         # - header-diff@file
-#         - compr@file
+  https:
+    address: :443
+    http:
+      tls:
+        certResolver: production
+        domains:
+          - main: oholvitalii.com
+            sans:
+              - '*.oholvitalii.com'
+      middlewares:
+        - securityHeaders@file
+        - compr@file
 
 providers:
   providersThrottleDuration: 5s
@@ -48,21 +47,21 @@ providers:
     exposedByDefault: false
 
 # Use letsencrypt to generate ssl serficiates
-# certificatesResolvers:
-#   staging:
-#     acme:
-#       email: ohol.vitaliy@gmail.com
-#       storage: /etc/traefik/acme.json
-#       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
-#       httpChallenge:
-#         entryPoint: http
-#   production:
-#     acme:
-#       #caServer: https://acme-staging-v02.api.letsencrypt.org/directory
-#       email: ohol.vitaliy@gmail.com
-#       storage: /etc/traefik/acme.json
-#       dnsChallenge:
-#         provider: cloudflare
-#         resolvers:
-#           - "1.1.1.1:53"
+certificatesResolvers:
+  staging:
+    acme:
+      email: ohol.vitaliy@gmail.com
+      storage: /etc/traefik/acme.json
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      httpChallenge:
+        entryPoint: http
+  production:
+    acme:
+      #caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      email: ohol.vitaliy@gmail.com
+      storage: /etc/traefik/acme.json
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
           - "8.8.8.8:53"
