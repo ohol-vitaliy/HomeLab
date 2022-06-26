@@ -21,7 +21,7 @@ services:
       - PIHOLE_DNS_=127.0.0.1#5335;127.0.0.1#5335
       - WEBPASSWORD=franki
       - WEBTHEME=default-dark
-      - CUSTOM_CACHE_SIZE=10000
+      - CUSTOM_CACHE_SIZE=1000
       - WEBUIBOXEDLAYOUT=traditional
       - TEMPERATUREUNIT=c
       - QUERY_LOGGING=true

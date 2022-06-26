@@ -1,0 +1,4 @@
+*/5 * * * * bash /home/zeroring/HomeLab/scripts/availability.sh
+0 1 * * * bash /home/zeroring/HomeLab/scripts/backup.sh
+0 2 * * * sqlite3 /home/zeroring/HomeLab/bw-data/db.sqlite3 VACUUM
+0 4 * * * reboot
