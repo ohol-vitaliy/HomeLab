@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  filerun:
+    image: filerun/filerun:arm64v8
+    environment:
+      - FR_DB_HOST=mariadb
+      - FR_DB_PORT=3306
+      - FR_DB_NAME=filerun
+      - FR_DB_USER=zeroring
+      - FR_DB_PASS=8Aps6WmY
+      - APACHE_RUN_USER=pi
+      - APACHE_RUN_USER_ID=1000
+      - APACHE_RUN_GROUP=pi
+      - APACHE_RUN_GROUP_ID=1000
+    networks:
+      - treafik_proxy
+    depends_on:
+      - mariadb
+    ports:
+      - 3002:80
+    volumes:
+      - filerun:/var/www/html
+      - /mnt/usb0/GooglePhotos:/user-files/photos
+      - /home/zeroring:/user-files/home
+
+volumes:
+  filerun: { }
+
+networks:
+  treafik_proxy:
+    driver: bridge
+    external: true

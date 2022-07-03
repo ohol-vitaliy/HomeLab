@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  adminer:
+    container_name: adminer
+    image: adminer
+    volumes:
+      - /home/zeroring/scriptobot/bookmarks.db:/bookmarks.db:rw
+      - ./configs/login-password-less.php:/var/www/html/plugins-enabled/login-password-less.php:ro
+    # environment:
+    #   - ADMINER_PLUGINS=login-password-less
+    networks:
+      - treafik_proxy
+    ports:
+      - 3000:8080
+    restart: unless-stopped
+
+networks:
+  treafik_proxy:
+    driver: bridge
+    external: true
